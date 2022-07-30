@@ -27,7 +27,7 @@ class ScoreViewModel(private val finalScore: Int) : ViewModel() {
     val score: LiveData<Int>
         get() = _score
 
-    private val _onPlayAgainEvent = MutableLiveData(false)
+    private var _onPlayAgainEvent = MutableLiveData<Boolean>()
     val onPlayAgainEvent: LiveData<Boolean>
         get() = _onPlayAgainEvent
 
@@ -36,5 +36,12 @@ class ScoreViewModel(private val finalScore: Int) : ViewModel() {
         Log.i("ScoreViewModel", "Final score is $finalScore")
     }
 
+    fun onPlayAgain() {
+        _onPlayAgainEvent.value = true
+    }
+
+    fun onPlayAgainComplete() {
+        _onPlayAgainEvent.value = false
+    }
 
 }
