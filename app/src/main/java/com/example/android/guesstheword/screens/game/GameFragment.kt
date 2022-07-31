@@ -20,6 +20,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,8 +77,11 @@ class GameFragment : Fragment() {
         // TODO (09) Created an observer for the buzz event which calls the buzz method with the
         // correct pattern. Remember to call onBuzzComplete!
         viewModel.eventBuzz.observe(viewLifecycleOwner, Observer { buzzType ->
-            buzz(buzzType.pattern)
-            viewModel.onBuzzComplete()
+            if (buzzType != GameViewModel.BuzzType.NO_BUZZ) {
+                Log.i("GameFragment", "Buzz")
+                buzz(buzzType.pattern)
+                viewModel.onBuzzComplete()
+            }
         })
 
 
