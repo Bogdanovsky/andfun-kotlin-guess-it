@@ -52,7 +52,7 @@ class GameViewModel : ViewModel() {
         // This is the total time of the game
         private const val COUNTDOWN_TIME = 20000L
 
-        private const val START_PANIC_BUZZ = 5000L
+        private const val START_PANIC_BUZZ = 5L
 
     }
 
@@ -109,7 +109,7 @@ class GameViewModel : ViewModel() {
 
             override fun onTick(millisUntilFinished: Long) {
                 _currentTime.value = (millisUntilFinished / ONE_SECOND)
-                if (_currentTime.value!! in 5..1) {
+                if (millisUntilFinished / ONE_SECOND <= START_PANIC_BUZZ) {
                     _eventBuzz.value = BuzzType.COUNTDOWN_PANIC
                 }
             }
