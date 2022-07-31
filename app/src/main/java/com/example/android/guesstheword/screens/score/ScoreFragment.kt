@@ -41,7 +41,7 @@ class ScoreFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Inflate view and obtain an instance of the binding class.
         val binding: ScoreFragmentBinding = DataBindingUtil.inflate(
@@ -57,18 +57,15 @@ class ScoreFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
                 .get(ScoreViewModel::class.java)
 
-        // TODO (06) Pass the ScoreViewModel into the data binding - then you can remove the
-        // OnClickListener setup for playAgainButton from here
+        binding.scoreViewModel = viewModel
 
         // Add observer for score
-        viewModel.score.observe(this, Observer { newScore ->
+        viewModel.score.observe(this.viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
 
-        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
-
         // Navigates back to title when button is pressed
-        viewModel.eventPlayAgain.observe(this, Observer { playAgain ->
+        viewModel.eventPlayAgain.observe(this.viewLifecycleOwner, Observer { playAgain ->
             if (playAgain) {
                 findNavController().navigate(ScoreFragmentDirections.actionRestart())
                 viewModel.onPlayAgainComplete()
